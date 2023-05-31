@@ -79,7 +79,7 @@ void DMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   G4double x0 = 0.;
   G4double y0 = 0.;
-  G4double z0 = -2.0*m;
+  G4double z0 = -10.0*m;
 
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 

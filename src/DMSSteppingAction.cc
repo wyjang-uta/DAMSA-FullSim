@@ -55,6 +55,42 @@ void DMSSteppingAction::UserSteppingAction(const G4Step* step)
 {
   auto analysisManager = G4AnalysisManager::Instance();
 
+  G4StepPoint* postStep = step->GetPostStepPoint();
+  G4StepPoint* preStep = step->GetPreStepPoint();
+  G4Track* track = step->GetTrack();
+  if( !postStep ) return;
+  if( !preStep  ) return;
+  if( !track ) return;
+  G4VPhysicalVolume* postVol = postStep->GetPhysicalVolume();
+  G4VPhysicalVolume* preVol = postStep->GetPhysicalVolume();
+  if( !postVol ) return;
+  if( !preVol  ) return;
+  if( postStep->GetPhysicalVolume()->GetName() != "physDetector" ) return;
+  if( preStep->GetPhysicalVolume()->GetName() == "physDetector" ) return; // deny double counting.
+
+  if( track->GetDefinition()->GetParticleName() == "nu_e" ) return;
+  if( track->GetDefinition()->GetParticleName() == "anti_nu_e" ) return;
+  if( track->GetDefinition()->GetParticleName() == "nu_mu" ) return;
+  if( track->GetDefinition()->GetParticleName() == "anti_nu_mu" ) return;
+
+  analysisManager->FillNtupleSColumn(0, track->GetDefinition()->GetParticleName() );
+  analysisManager->FillNtupleSColumn(1, track->GetCreatorProcess()->GetProcessName() );
+  analysisManager->FillNtupleDColumn(2, track->GetParentID());
+  analysisManager->FillNtupleDColumn(3, track->GetTrackID());
+  analysisManager->FillNtupleDColumn(4, track->GetCurrentStepNumber());
+  analysisManager->FillNtupleDColumn(5, (G4double)track->GetKineticEnergy()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn(6, (G4double)track->GetTotalEnergy()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn(7, (G4double)track->GetPosition().getX()/CLHEP::cm);
+  analysisManager->FillNtupleDColumn(8, (G4double)track->GetPosition().getY()/CLHEP::cm);
+  analysisManager->FillNtupleDColumn(9, (G4double)track->GetPosition().getZ()/CLHEP::cm);
+  analysisManager->FillNtupleDColumn(10, (G4double)track->GetMomentum().getX()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn(11, (G4double)track->GetMomentum().getY()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn(12, (G4double)track->GetMomentum().getZ()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn(13, (G4double)track->GetGlobalTime()/CLHEP::ns);
+  analysisManager->FillNtupleDColumn(14, (G4double)track->GetLocalTime()/CLHEP::ns);
+  analysisManager->AddNtupleRow();
+
+  /*
   const std::vector<const G4Track*>* secondary = step->GetSecondaryInCurrentStep();
   for( size_t lp=0; lp < (*secondary).size(); lp++ )
   {
@@ -84,6 +120,7 @@ void DMSSteppingAction::UserSteppingAction(const G4Step* step)
     analysisManager->FillNtupleDColumn(14, (G4double)(*secondary)[lp]->GetLocalTime()/CLHEP::ns);
     analysisManager->AddNtupleRow();
   }
+  */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

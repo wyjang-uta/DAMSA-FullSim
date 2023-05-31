@@ -56,7 +56,7 @@ DMSRunAction::DMSRunAction()
   analysisManager->SetVerboseLevel(1);
 
   // Create an Ntuple
-  analysisManager->CreateNtuple("RAONSCL2", "RAONSCL2");
+  analysisManager->CreateNtuple("DMSNtuple", "DMSFullSim");
   analysisManager->CreateNtupleSColumn("name");
   analysisManager->CreateNtupleSColumn("process");
   analysisManager->CreateNtupleDColumn("parentId");
@@ -64,14 +64,14 @@ DMSRunAction::DMSRunAction()
   analysisManager->CreateNtupleDColumn("stepNo");
   analysisManager->CreateNtupleDColumn("kineticEnergy");
   analysisManager->CreateNtupleDColumn("totalEnergy");
-  analysisManager->CreateNtupleDColumn("vertex_x");
-  analysisManager->CreateNtupleDColumn("vertex_y");
-  analysisManager->CreateNtupleDColumn("vertex_z");
+  analysisManager->CreateNtupleDColumn("vx");
+  analysisManager->CreateNtupleDColumn("vy");
+  analysisManager->CreateNtupleDColumn("vz");
   analysisManager->CreateNtupleDColumn("px");
   analysisManager->CreateNtupleDColumn("py");
   analysisManager->CreateNtupleDColumn("pz");
-  analysisManager->CreateNtupleDColumn("globalTime");
-  analysisManager->CreateNtupleDColumn("localTime");
+  analysisManager->CreateNtupleDColumn("gTime");
+  analysisManager->CreateNtupleDColumn("lTime");
   analysisManager->FinishNtuple();
 }
 

@@ -52,7 +52,7 @@ set(DMS_SCRIPTS
   vis.mac
   )
 
-foreach(_script ${EXAMPLEDMS_SCRIPTS})
+foreach(_script ${DMS_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
