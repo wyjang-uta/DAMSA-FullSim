@@ -73,16 +73,16 @@ void DMSSteppingAction::UserSteppingAction(const G4Step* step)
   if( track->GetDefinition()->GetParticleName() == "nu_mu" ) return;
   if( track->GetDefinition()->GetParticleName() == "anti_nu_mu" ) return;
 
-  analysisManager->FillNtupleSColumn(0, track->GetDefinition()->GetParticleName() );
-  analysisManager->FillNtupleSColumn(1, track->GetCreatorProcess()->GetProcessName() );
-  analysisManager->FillNtupleDColumn(2, track->GetParentID());
-  analysisManager->FillNtupleDColumn(3, track->GetTrackID());
-  analysisManager->FillNtupleDColumn(4, track->GetCurrentStepNumber());
-  analysisManager->FillNtupleDColumn(5, (G4double)track->GetKineticEnergy()/CLHEP::MeV);
-  analysisManager->FillNtupleDColumn(6, (G4double)track->GetTotalEnergy()/CLHEP::MeV);
-  analysisManager->FillNtupleDColumn(7, (G4double)track->GetPosition().getX()/CLHEP::cm);
-  analysisManager->FillNtupleDColumn(8, (G4double)track->GetPosition().getY()/CLHEP::cm);
-  analysisManager->FillNtupleDColumn(9, (G4double)track->GetPosition().getZ()/CLHEP::cm);
+  analysisManager->FillNtupleSColumn( 0, track->GetDefinition()->GetParticleName() );
+  analysisManager->FillNtupleSColumn( 1, track->GetCreatorProcess()->GetProcessName() );
+  analysisManager->FillNtupleDColumn( 2, track->GetParentID());
+  analysisManager->FillNtupleDColumn( 3, track->GetTrackID());
+  analysisManager->FillNtupleDColumn( 4, track->GetCurrentStepNumber());
+  analysisManager->FillNtupleDColumn( 5, (G4double)track->GetKineticEnergy()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn( 6, (G4double)track->GetTotalEnergy()/CLHEP::MeV);
+  analysisManager->FillNtupleDColumn( 7, (G4double)track->GetPosition().getX()/CLHEP::cm);
+  analysisManager->FillNtupleDColumn( 8, (G4double)track->GetPosition().getY()/CLHEP::cm);
+  analysisManager->FillNtupleDColumn( 9, (G4double)track->GetPosition().getZ()/CLHEP::cm);
   analysisManager->FillNtupleDColumn(10, (G4double)track->GetMomentum().getX()/CLHEP::MeV);
   analysisManager->FillNtupleDColumn(11, (G4double)track->GetMomentum().getY()/CLHEP::MeV);
   analysisManager->FillNtupleDColumn(12, (G4double)track->GetMomentum().getZ()/CLHEP::MeV);

@@ -51,8 +51,12 @@ int main(int argc,char** argv)
 {
   // Detect interactive mode (if no arguments) and define UI session
   //
+  G4long seed;
   G4UIExecutive* ui = 0;
-  switch(argc){
+  G4String outputFileName;
+  G4String* pOutputFileName = &outputFileName;
+  switch(argc)
+  {
     case 1:
       G4cout << "Visualization Mode" << G4endl;
       ui = new G4UIExecutive(argc, argv);
@@ -65,11 +69,13 @@ int main(int argc,char** argv)
       // Optionally: choose a different Random engine
       // G4Random::setTheEngine(new CLHEP::MTwistEngine);
       G4cout << "Batch job mode" << G4endl;
-      G4long seed = (G4long)argv[2];
-      G4Random::setTheSeed(seed);
+      outputFileName = argv[2];
+      G4Random::setTheSeed(1);
       break;
     default:
-
+      G4cout << "Visualization Mode" << G4endl;
+      ui = new G4UIExecutive(argc, argv);
+      break;
   }
 
   // Construct the default run manager
@@ -93,7 +99,21 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(physicsList);
 
   // User action initialization
-  runManager->SetUserInitialization(new DMSActionInitialization());
+  switch(argc)
+  {
+    case 1:
+      runManager->SetUserInitialization(new DMSActionInitialization());
+      break;
+    case 2:
+      runManager->SetUserInitialization(new DMSActionInitialization());
+      break;
+    case 3:
+      runManager->SetUserInitialization(new DMSActionInitialization(pOutputFileName));
+      break;
+    default:
+      runManager->SetUserInitialization(new DMSActionInitialization());
+      break;
+  }
 
   // Initialize visualization
   //

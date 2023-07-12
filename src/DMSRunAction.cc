@@ -45,7 +45,42 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DMSRunAction::DMSRunAction()
-: G4UserRunAction()
+: G4UserRunAction(),
+  fOutputFileNamePtr(nullptr)
+{
+  // Analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
+  G4cout << "Using " << analysisManager->GetType() << G4endl;
+
+  // Default settings
+  analysisManager->SetNtupleMerging(true);
+  analysisManager->SetVerboseLevel(1);
+
+  // Create an Ntuple
+  analysisManager->CreateNtuple("DMSNtuple", "DMSFullSim");
+  analysisManager->CreateNtupleSColumn("name");
+  analysisManager->CreateNtupleSColumn("process");
+  analysisManager->CreateNtupleDColumn("parentId");
+  analysisManager->CreateNtupleDColumn("trackId");
+  analysisManager->CreateNtupleDColumn("stepNo");
+  analysisManager->CreateNtupleDColumn("kineticEnergy");
+  analysisManager->CreateNtupleDColumn("totalEnergy");
+  analysisManager->CreateNtupleDColumn("vx");
+  analysisManager->CreateNtupleDColumn("vy");
+  analysisManager->CreateNtupleDColumn("vz");
+  analysisManager->CreateNtupleDColumn("px");
+  analysisManager->CreateNtupleDColumn("py");
+  analysisManager->CreateNtupleDColumn("pz");
+  analysisManager->CreateNtupleDColumn("gTime");
+  analysisManager->CreateNtupleDColumn("lTime");
+  analysisManager->FinishNtuple();
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+DMSRunAction::DMSRunAction(const G4String* outputFileName)
+: G4UserRunAction(),
+  fOutputFileNamePtr(outputFileName)
 {
   // Analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
@@ -94,7 +129,17 @@ void DMSRunAction::BeginOfRunAction(const G4Run*)
   // Set output file name and open it.
   auto analysisManager = G4AnalysisManager::Instance();
   /// Todo: add physics list, number of particles in the file name.
-  analysisManager->SetFileName("dms-fullsim-out");
+  if( fOutputFileNamePtr == nullptr )
+  {
+    // single file mode
+    G4cout << "(single file mode) Setting output file name: " << "dms-fullsim-out.root" << G4endl;
+    analysisManager->SetFileName("dms-fullsim-out");
+  }
+  else
+  { // batch mode
+    G4cout << "(batch mode) Setting output file name: " << *fOutputFileNamePtr << G4endl;
+    analysisManager->SetFileName(*fOutputFileNamePtr);
+  }
   analysisManager->OpenFile();
 }
 

@@ -36,13 +36,15 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DMSActionInitialization::DMSActionInitialization()
- : G4VUserActionInitialization()
+ : G4VUserActionInitialization(),
+ fOutputFileNamePtr(nullptr)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-DMSActionInitialization::DMSActionInitialization(G4int RunNo)
- : G4VUserActionInitialization()
+DMSActionInitialization::DMSActionInitialization(const G4String* outputFileNamePtr)
+ : G4VUserActionInitialization(),
+ fOutputFileNamePtr(outputFileNamePtr)
 {}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -53,7 +55,11 @@ DMSActionInitialization::~DMSActionInitialization()
 
 void DMSActionInitialization::BuildForMaster() const
 {
-  DMSRunAction* runAction = new DMSRunAction;
+  DMSRunAction* runAction;
+  if( fOutputFileNamePtr != nullptr )
+    runAction = new DMSRunAction(fOutputFileNamePtr);
+  else
+    runAction = new DMSRunAction();
   SetUserAction(runAction);
 }
 
@@ -63,7 +69,12 @@ void DMSActionInitialization::Build() const
 {
   SetUserAction(new DMSPrimaryGeneratorAction);
 
-  DMSRunAction* runAction = new DMSRunAction;
+  DMSRunAction* runAction;
+  if( fOutputFileNamePtr != nullptr )
+    runAction = new DMSRunAction(fOutputFileNamePtr);
+  else
+    runAction = new DMSRunAction();
+  
   SetUserAction(runAction);
 
   DMSEventAction* eventAction = new DMSEventAction(runAction);

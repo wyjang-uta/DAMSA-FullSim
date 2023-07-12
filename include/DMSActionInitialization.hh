@@ -31,6 +31,7 @@
 #define DMSActionInitialization_h 1
 
 #include "G4VUserActionInitialization.hh"
+#include "G4String.hh"
 
 /// Action initialization class.
 
@@ -38,14 +39,14 @@ class DMSActionInitialization : public G4VUserActionInitialization
 {
   public:
     DMSActionInitialization();
-    DMSActionInitialization(G4int RunNo);
+    DMSActionInitialization(const G4String* outputFileNamePtr);
     virtual ~DMSActionInitialization();
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
 
   private:
-    G4int fRunNo;
+    const G4String* fOutputFileNamePtr;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -33,7 +33,7 @@
 #include "G4UserRunAction.hh"
 #include "G4Accumulable.hh"
 #include "globals.hh"
-
+#include "G4String.hh"
 class G4Run;
 
 /// Run action class
@@ -46,6 +46,7 @@ class DMSRunAction : public G4UserRunAction
 {
   public:
     DMSRunAction();
+    DMSRunAction(const G4String* outputFileNamePtr);
     virtual ~DMSRunAction();
 
     // virtual G4Run* GenerateRun();
@@ -53,6 +54,7 @@ class DMSRunAction : public G4UserRunAction
     virtual void   EndOfRunAction(const G4Run*);
 
   private:
+    const G4String* fOutputFileNamePtr;
 };
 
 #endif
