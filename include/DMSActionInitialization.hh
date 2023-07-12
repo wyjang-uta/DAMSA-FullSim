@@ -38,10 +38,14 @@ class DMSActionInitialization : public G4VUserActionInitialization
 {
   public:
     DMSActionInitialization();
+    DMSActionInitialization(G4int RunNo);
     virtual ~DMSActionInitialization();
 
     virtual void BuildForMaster() const;
     virtual void Build() const;
+
+  private:
+    G4int fRunNo;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

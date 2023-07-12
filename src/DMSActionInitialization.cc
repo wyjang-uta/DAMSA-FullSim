@@ -41,6 +41,11 @@ DMSActionInitialization::DMSActionInitialization()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+DMSActionInitialization::DMSActionInitialization(G4int RunNo)
+ : G4VUserActionInitialization()
+{}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 DMSActionInitialization::~DMSActionInitialization()
 {}
 

@@ -52,14 +52,25 @@ int main(int argc,char** argv)
   // Detect interactive mode (if no arguments) and define UI session
   //
   G4UIExecutive* ui = 0;
-  if ( argc == 1 ) {
-    ui = new G4UIExecutive(argc, argv);
-  }
+  switch(argc){
+    case 1:
+      G4cout << "Visualization Mode" << G4endl;
+      ui = new G4UIExecutive(argc, argv);
+      break;
+    case 2:
+      G4cout << "Single job mode : set random seed to be 1" << G4endl;
+      G4Random::setTheSeed(1);
+      break;
+    case 3:
+      // Optionally: choose a different Random engine
+      // G4Random::setTheEngine(new CLHEP::MTwistEngine);
+      G4cout << "Batch job mode" << G4endl;
+      G4long seed = (G4long)argv[2];
+      G4Random::setTheSeed(seed);
+      break;
+    default:
 
-  // Optionally: choose a different Random engine
-  // G4Random::setTheEngine(new CLHEP::MTwistEngine);
-  G4long seed = 1;
-  G4Random::setTheSeed(seed);
+  }
 
   // Construct the default run manager
   //
